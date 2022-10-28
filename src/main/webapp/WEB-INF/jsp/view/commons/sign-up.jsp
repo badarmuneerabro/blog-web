@@ -17,16 +17,15 @@
 
 					<div class="card-body">
 
-						<form>
-
+						<form action="blog" method="POST">
 							<div class="form-group">
-								<label for="username">Username</label> <input
+								<label for="username">Username</label> <input name="username"
 									type="text" class="form-control" id="username"
 									aria-describedby="emailHelp" placeholder="Enter Username">
 							</div>
 							
 							<div class="form-group">
-								<label for="exampleInputEmail1">Email address</label> <input
+								<label for="exampleInputEmail1">Email address</label> <input name="email"
 									type="email" class="form-control" id="exampleInputEmail1"
 									aria-describedby="emailHelp" placeholder="Enter email">
 								<small id="emailHelp" class="form-text text-muted">We'll
@@ -35,25 +34,26 @@
 
 
 							<div class="form-group">
-								<label for="exampleInputPassword1">Password</label> <input
+								<label for="exampleInputPassword1">Password</label> <input name="password"
 									type="password" class="form-control" id="exampleInputPassword1"
 									placeholder="Password">
 							</div>
 							
 							<div class="form-group">
 								<label for="gender">Select Gender</label><br>
-								<input type="radio" class="" name="gender" id="gender">Male
-								<input type="radio" class="" name="gender" id="gender">Female
+								<input type="radio" class="" name="gender" value="male" id="gender">Male
+								<input type="radio" class="" name="gender" value="female" id="gender">Female
 							</div>
 							
 							<div class="form-group">
 								<textarea name="about" class="form-control" placeholder="Enter something about you" rows="5"></textarea>
 							</div>
 							<div class="form-check">
-								<input type="checkbox" class="form-check-input"
+								<input type="checkbox" class="form-check-input" name="check"
 									id="exampleCheck1"> <label class="form-check-label"
 									for="exampleCheck1">Agree terms and conditions</label>
 							</div>
+							<c:if test="${ not boxChecked }"><strong>Please Check the box</strong></c:if>
 							<br>
 							<button type="submit" class="btn btn-primary">Submit</button>
 						</form>

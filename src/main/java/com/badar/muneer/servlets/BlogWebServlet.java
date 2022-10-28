@@ -7,44 +7,95 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+
+import com.badar.muneer.helper.Connect;
+import com.badar.muneer.model.User;
+
 @WebServlet("/blog")
 public class BlogWebServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException 
 	{
-		String action = request.getParameter("action");
-		if(action == null)
-			action = "home";
-		
-		switch(action)
+		if(request.getSession().getAttribute("user") != null)
 		{
+			System.out.println("Forwarding to profile page.");
+			forwardToProfilePage(request, response);
+			return;
+			
+		}
+		String action = request.getParameter("action");
+		if (action == null)
+			action = "home";
+		switch (action) {
 		case "home":
 			forwardToHomePage(request, response);
 			break;
 		case "login":
 			forwardToLoginPage(request, response);
+			break;
 		case "register":
 			forwardToRegistrationPage(request, response);
+			break;
 		}
 	}
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException 
 	{
+		String check = request.getParameter("check");
+		// If the user agreed to terms and conditions
+		if (check != null) 
+		{
+			String username = request.getParameter("username");
+			String email = request.getParameter("email");
+			String password = request.getParameter("password");
+			String gender = request.getParameter("gender");
+			String about = request.getParameter("about");
+			
+			User user = new User(username, email, password, gender, about);
+			
+			Session session = Connect.getFactory().openSession();
+			
+			session.beginTransaction();
+			
+			session.save(user);
+			session.getTransaction().commit();
+			session.close();
+			
+			response.sendRedirect("blog?action=login");
+			return;
+		}
+		
+		else
+		{
+			request.setAttribute("boxChecked", false);
+			request.getRequestDispatcher("/WEB-INF/jsp/view/commons/sign-up.jsp").forward(request, response);
+		}
+	}
+
+	public void forwardToHomePage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("/WEB-INF/jsp/view/commons/home.jsp").forward(request, response);
+	}
+
+	public void forwardToLoginPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setAttribute("loginFailed", false); // no login has not failed.
+		request.getRequestDispatcher("/WEB-INF/jsp/view/commons/login.jsp").forward(request, response);
+	}
+
+	public void forwardToRegistrationPage(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.setAttribute("boxChecked", true); // yes box is checked, just ignore this
+		request.getRequestDispatcher("/WEB-INF/jsp/view/commons/sign-up.jsp").forward(request, response);
 	}
 	
-	public void forwardToHomePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	private void forwardToProfilePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
-		request.getRequestDispatcher("/WEB-INF/jsp/view/home.jsp").forward(request, response);
-	}
-	public void forwardToLoginPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
-		request.getRequestDispatcher("/WEB-INF/jsp/view/login.jsp").forward(request, response);
-	}
-	
-	public void forwardToRegistrationPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
-	{
-		request.getRequestDispatcher("/WEB-INF/jsp/view/sign-up.jsp").forward(request, response);
+		request.getRequestDispatcher("/WEB-INF/jsp/view/user/profile.jsp").forward(request, response);
 	}
 
 }
