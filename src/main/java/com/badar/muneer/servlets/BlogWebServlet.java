@@ -1,6 +1,8 @@
 package com.badar.muneer.servlets;
 
 import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.hibernate.Session;
 
 import com.badar.muneer.helper.Connect;
+import com.badar.muneer.model.Category;
 import com.badar.muneer.model.User;
 
 @WebServlet("/blog")
@@ -19,13 +22,15 @@ public class BlogWebServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException 
 	{
+		boolean isForwarded = false;
 		if(request.getSession().getAttribute("user") != null)
 		{
-			System.out.println("Forwarding to profile page.");
 			forwardToProfilePage(request, response);
+			isForwarded = true;
 			return;
-			
 		}
+		
+		System.out.println(isForwarded);
 		String action = request.getParameter("action");
 		if (action == null)
 			action = "home";
@@ -95,6 +100,14 @@ public class BlogWebServlet extends HttpServlet {
 	
 	private void forwardToProfilePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+		Session session = Connect.getFactory().openSession();
+		session.beginTransaction();
+		
+		List<Category> categories = (List<Category>) session.createQuery("from Category").list();
+		
+		session.getTransaction().commit();
+		session.close();
+		request.setAttribute("categories", categories);
 		request.getRequestDispatcher("/WEB-INF/jsp/view/user/profile.jsp").forward(request, response);
 	}
 

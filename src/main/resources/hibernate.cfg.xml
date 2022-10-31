@@ -18,5 +18,8 @@
 		<property name="connection.pool_size">1</property>
 		
 		<mapping class="com.badar.muneer.model.User"/>
+		<mapping class="com.badar.muneer.model.Category"/>
+		<mapping class="com.badar.muneer.model.Post"/>
+		
 	</session-factory>
 </hibernate-configuration>

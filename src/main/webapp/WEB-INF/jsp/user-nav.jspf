@@ -28,6 +28,9 @@
 					<a class="dropdown-item" href="#">Data structures</a>
 				</div></li>
 			<li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+			<li class="nav-item">
+				<a class="nav-link" href="#" data-toggle="modal" data-target="#add-post-modal">Post</a>
+			</li>
 		</ul>
 		<ul class="navbar-nav mr-right">
 			<li><a href="" data-toggle="modal" data-target="#profile-modal"
@@ -42,56 +45,3 @@
 		</ul>
 	</div>
 </nav>
-
-<!-- Dispalying profile modal -->
-
-<!-- Modal -->
-<div class="modal fade" id="profile-modal" tabindex="-1" role="dialog"
-	aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header primary-background text-center text-white">
-				<h5 class="modal-title" id="exampleModalLabel">Xee-Blog</h5>
-				<button type="button" class="close" data-dismiss="modal"
-					aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="container text-center">
-					<img alt="Profile picture" class="img-fluid"
-						src="images/${user.profile }" />
-					<h5 class="modal-title" id="exampleModalLabel">${user.username }</h5>
-				</div>
-				<table class="table">
-					<tbody>
-						<tr>
-							<th scope="row">ID</th>
-							<td><c:out value="${user.id }" /></td>
-						</tr>
-						<tr>
-							<th scope="row">Email</th>
-							<td><c:out value="${user.email }" /></td>
-						</tr>
-						<tr>
-							<th scope="row">Gender</th>
-							<td><c:out value="${user.gender }" /></td>
-						</tr>
-						<tr>
-							<th scope="row">About</th>
-							<td><c:out value="${user.about }" /></td>
-						</tr>
-						<tr>
-							<th scope="row">Member since</th>
-							<td><c:out value="${user.date }" /></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
-		</div>
-	</div>
-</div>

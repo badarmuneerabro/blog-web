@@ -66,7 +66,6 @@ public class LoginServlet extends HttpServlet {
 			User user = userList.get(0);
 			HttpSession hSession = request.getSession();
 			hSession.setAttribute("user", user);
-			System.out.println(user);
 			request.changeSessionId();
 			response.sendRedirect("blog");
 			return;
