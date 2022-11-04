@@ -99,15 +99,9 @@ public class BlogWebServlet extends HttpServlet {
 	}
 	
 	private void forwardToProfilePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		Session session = Connect.getFactory().openSession();
-		session.beginTransaction();
-		
-		List<Category> categories = (List<Category>) session.createQuery("from Category").list();
-		
-		session.getTransaction().commit();
-		session.close();
-		request.setAttribute("categories", categories);
+	{		
+		request.setAttribute("posts", Connect.getAllPosts());
+		request.setAttribute("categories", Connect.getAllCategories());
 		request.getRequestDispatcher("/WEB-INF/jsp/view/user/profile.jsp").forward(request, response);
 	}
 

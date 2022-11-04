@@ -19,40 +19,42 @@ public class Post
 	@OneToOne
 	@JoinColumn(name = "CATEGORY_ID")
 	private Category category;
+	
+	@OneToOne
+	@JoinColumn(name = "USER_ID")
+	private User user;
 	@Column(name = "TITLE", length = 100)
 	private String title;
 	@Column(name = "CONTENT", columnDefinition = "text")
 	private String content;
 	@Column(name = "CODE", columnDefinition = "text")
 	private String code;
-	@Column(name = "PICTURE", length = 30)
-	private String pic;
 	@Column(name = "DATE")
 	private Date date;
 	
 	public Post()
 	{
-		
+		date = new Date();
 	}
-	public Post(int id, Category category, String title, String content, String code, String pic, Date date) {
+	public Post(int id, Category category, String title, String content, String code) {
 		super();
 		this.id = id;
 		this.category = category;
 		this.title = title;
 		this.content = content;
 		this.code = code;
-		this.pic = pic;
-		this.date = date;
+		this.date = new Date();
 	}
-	public Post(Category category, String title, String content, String code, String pic, Date date) {
+	public Post(Category category, String title, String content, String code, String pic) {
 		super();
 		this.category = category;
 		this.title = title;
 		this.content = content;
 		this.code = code;
-		this.pic = pic;
-		this.date = date;
+		this.date = new Date();
 	}
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -64,6 +66,14 @@ public class Post
 	}
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public String getTitle() {
 		return title;
@@ -82,12 +92,6 @@ public class Post
 	}
 	public void setCode(String code) {
 		this.code = code;
-	}
-	public String getPic() {
-		return pic;
-	}
-	public void setPic(String pic) {
-		this.pic = pic;
 	}
 	public Date getDate() {
 		return date;
