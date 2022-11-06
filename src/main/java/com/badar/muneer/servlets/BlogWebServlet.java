@@ -83,6 +83,7 @@ public class BlogWebServlet extends HttpServlet {
 
 	public void forwardToHomePage(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		request.setAttribute("posts", Connect.getAllPosts());
 		request.getRequestDispatcher("/WEB-INF/jsp/view/commons/home.jsp").forward(request, response);
 	}
 
